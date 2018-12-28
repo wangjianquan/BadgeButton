@@ -20,46 +20,45 @@ class ViewController: UIViewController {
     }()
 
 
+    lazy var rightButton: BadgeBarButtonItem = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 30))
+        btn.backgroundColor = .orange
+        let rightButton = BadgeBarButtonItem(customButton: btn)
+        rightButton.badgeValue = "100";
+        return rightButton
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(badgeBtn)
-        rightBarButtonItem()
-
-    }
-
-    func  rightBarButtonItem()  {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 30))
-        btn.backgroundColor = .orange
-
-        let rightButton = BadgeBarButtonItem(customButton: btn)
-        rightButton.badgeValue = "100";
-        //        rightButton.badgeOriginX = 7;
-        rightButton.badgeOriginY = -7;
-        //        rightButton.badgeBGColor = .blue
-        //        rightButton.badgeTextColor = .white
-        //        rightButton.badgeFont = UIFont.systemFont(ofSize: 12)
-        //        rightButton.badgePadding = 6
-        //        rightButton.badgeMinSize = 5
-        // Add it as the leftBarButtonItem of the navigation bar
         self.navigationItem.leftBarButtonItem = rightButton
+
     }
+
+
 
 
 
 
     @IBAction func changeAction(_ sender: UIButton) {
+
         switch sender.tag {
         case 0:
-             badgeBtn.badgeValue = "120"
+             badgeBtn.badgeValue = "\(arc4random_uniform(20000))"
+             rightButton.badgeValue = "\(arc4random_uniform(230))"
         case 1:
-             badgeBtn.badgeBGColor = UIColor.orange
+             badgeBtn.badgeBGColor = UIColor.randomColor
+             rightButton.badgeBGColor = UIColor.randomColor
         case 2:
-            badgeBtn.badgeTextColor = UIColor.red
+            badgeBtn.badgeTextColor = UIColor.randomColor
+            rightButton.badgeTextColor = UIColor.randomColor
         case 3:
-            badgeBtn.badgeOriginX = 10
+            badgeBtn.badgeOriginX = CGFloat(Int(arc4random_uniform(90)) + -8)
+            rightButton.badgeOriginX = CGFloat(Int(arc4random_uniform(40)) + 1)
         case 4:
-            badgeBtn.badgeOriginY = -8
+            badgeBtn.badgeOriginY = CGFloat(Int(arc4random_uniform(40)) + -15)
+            rightButton.badgeOriginY = CGFloat(Int(arc4random_uniform(40)) + -5)
 
         default:
             break
