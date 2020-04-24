@@ -48,7 +48,6 @@ extension UIButton {
             if (badgeValue?.isEmpty)!   || (badgeValue == "") || ((badgeValue == "0") && shouldHideBadgeAtZero) {
                     removeBadge()
                 } else if (self.badgeLabel == nil ) {
-
                     self.badgeLabel  = UILabel(frame: CGRect(x: self.badgeOriginX , y: self.badgeOriginY, width: 20, height: 20))
                     self.badgeLabel?.textColor = self.badgeTextColor
                     self.badgeLabel?.backgroundColor = self.badgeBGColor
@@ -80,7 +79,6 @@ extension UIButton {
     /**
      * Badge text color
      */
-
     var badgeTextColor: UIColor? {
         get{
             return objc_getAssociatedObject(self, &UIButton_badgeTextColorKey) as? UIColor ?? .white
@@ -140,7 +138,9 @@ extension UIButton {
         }
         set{
             objc_setAssociatedObject(self, &UIButton_badgeOriginXKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            if (self.badgeLabel != nil) { updateBadgeFrame() }
+            if (self.badgeLabel != nil) {
+                updateBadgeFrame()
+            }
         }
     }
 
@@ -149,7 +149,7 @@ extension UIButton {
      */
     var badgeOriginY: CGFloat  {
         get{
-            return objc_getAssociatedObject(self, &UIButton_badgeOriginYKey) as? CGFloat ?? -4
+            return objc_getAssociatedObject(self, &UIButton_badgeOriginYKey) as? CGFloat ?? -5
         }
         set{
             objc_setAssociatedObject(self, &UIButton_badgeOriginYKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -184,7 +184,7 @@ extension UIButton {
     
     fileprivate func badgeInit()  {
         if let label = self.badgeLabel {
-            self.badgeOriginX   = self.frame.size.width - label.frame.size.width/2
+            self.badgeOriginX = self.frame.size.width - label.frame.size.width/2
         }
         
         self.clipsToBounds = false
@@ -234,10 +234,13 @@ extension UIButton {
         let expectedLabelSize: CGSize = badgeExpectedSize()
         var minHeight: CGFloat = expectedLabelSize.height
         minHeight = (minHeight < badgeMinSize) ? badgeMinSize : expectedLabelSize.height
+       
         var minWidth: CGFloat = expectedLabelSize.width
         let padding = self.badgePadding
         minWidth = (minWidth < minHeight) ? minHeight : expectedLabelSize.width
-    self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: minWidth + padding, height: minHeight + padding)
+    
+        
+        self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: minWidth + padding, height: minHeight + padding)
         self.badgeLabel?.layer.cornerRadius = (minHeight + padding) / 2
         self.badgeLabel?.layer.masksToBounds = true
     }

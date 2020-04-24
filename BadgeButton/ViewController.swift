@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         let badgeBtn = UIButton(frame: CGRect(x: 50, y: 300, width: 88, height: 35))
         badgeBtn.setTitle("角标", for: .normal)
         badgeBtn.setTitleColor(.black, for: .normal)
-        badgeBtn.badgeValue = "2"
+        badgeBtn.badgeValue = "66"
         badgeBtn.backgroundColor = UIColor.groupTableViewBackground
         return badgeBtn
     }()
@@ -23,16 +23,25 @@ class ViewController: UIViewController {
     lazy var rightButton: BadgeBarButtonItem = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 30))
         btn.backgroundColor = .orange
+        btn.setImage(UIImage(named: "message"), for: .normal)
         let rightButton = BadgeBarButtonItem(customButton: btn)
         rightButton.badgeValue = "100";
         return rightButton
     }()
-
+    lazy var leftButton: BadgeBarButtonItem = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 30))
+        btn.backgroundColor = .orange
+        btn.setImage(UIImage(named: "message1"), for: .normal)
+        let barItem = BadgeBarButtonItem(customButton: btn)
+        barItem.badgeValue = "100";
+        return barItem
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(badgeBtn)
-        self.navigationItem.leftBarButtonItem = rightButton
+        self.navigationItem.leftBarButtonItem = leftButton
+        self.navigationItem.rightBarButtonItem = rightButton
 
     }
 

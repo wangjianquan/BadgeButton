@@ -12,7 +12,9 @@ class BadgeBarButtonItem: UIBarButtonItem {
 
     fileprivate  var badgeLabel: UILabel?
 
-
+    /**
+     * Badge background color
+    */
     var badgeBGColor: UIColor  = .red {
         didSet{
             if self.badgeLabel != nil {
@@ -20,6 +22,10 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
+    
+    /**
+    * Badge text color
+    */
     var badgeTextColor: UIColor = .white {
         didSet{
             if self.badgeLabel != nil {
@@ -27,6 +33,10 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
+    
+    /**
+    * Badge font
+    */
     var badgeFont: UIFont = UIFont.systemFont(ofSize: 12){
         didSet{
             if self.badgeLabel != nil {
@@ -34,6 +44,10 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
+    
+    /**
+    *  Padding value for the badge
+    */
     var badgePadding: CGFloat = 6 {
         didSet{
             if self.badgeLabel != nil {
@@ -41,11 +55,21 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
+    
+    /**
+    * badgeMinSize
+    */
     var badgeMinSize: CGFloat = 8 {
         didSet{
-            if self.badgeLabel != nil { updateBadgeFrame() }
+            if self.badgeLabel != nil {
+                updateBadgeFrame()
+            }
         }
     }
+    
+    /**
+    *  badgeLabel OriginX
+    */
     var badgeOriginX: CGFloat = 0 {
         didSet{
             if self.badgeLabel != nil {
@@ -53,6 +77,10 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
+    
+    /**
+    * badgeLabel OriginY
+    */
     var badgeOriginY: CGFloat = -4 {
         didSet{
             if self.badgeLabel != nil {
@@ -91,7 +119,7 @@ class BadgeBarButtonItem: UIBarButtonItem {
     fileprivate func initializer() {
         self.badgeBGColor = .red
         self.badgeTextColor = .white
-        self.badgeFont = UIFont.systemFont(ofSize: 12.0)
+        self.badgeFont = UIFont.systemFont(ofSize: 10.0)
         self.badgePadding = 6
         self.badgeMinSize = 8
         if let label = self.badgeLabel {
