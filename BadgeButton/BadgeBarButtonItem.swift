@@ -2,7 +2,7 @@
 //  BadgeBarButtonItem.swift
 //  CustomControls
 //
-//  Created by aixuexue on 2018/12/28.
+//  Created by 白小嘿 on 2018/12/28.
 //  Copyright © 2018 WJQ. All rights reserved.
 //
 
@@ -11,6 +11,7 @@ import UIKit
 class BadgeBarButtonItem: UIBarButtonItem {
 
     fileprivate  var badgeLabel: UILabel?
+
 
     /**
      * Badge background color
@@ -37,7 +38,7 @@ class BadgeBarButtonItem: UIBarButtonItem {
     /**
     * Badge font
     */
-    var badgeFont: UIFont = UIFont.systemFont(ofSize: 12){
+    var badgeFont: UIFont = UIFont.systemFont(ofSize: 10){
         didSet{
             if self.badgeLabel != nil {
                 badgeLabel?.font  = self.badgeFont
@@ -77,7 +78,6 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
-    
     /**
     * badgeLabel OriginY
     */
@@ -88,7 +88,7 @@ class BadgeBarButtonItem: UIBarButtonItem {
             }
         }
     }
-
+    
     fileprivate var shouldHideBadgeAtZero = true
     fileprivate var shouldAnimateBadge = true
 
@@ -111,7 +111,6 @@ class BadgeBarButtonItem: UIBarButtonItem {
         }
     }
 
-
     convenience init(customButton: UIButton)  {
         self.init(customView: customButton)
     }
@@ -119,23 +118,20 @@ class BadgeBarButtonItem: UIBarButtonItem {
     fileprivate func initializer() {
         self.badgeBGColor = .red
         self.badgeTextColor = .white
-        self.badgeFont = UIFont.systemFont(ofSize: 10.0)
+        self.badgeFont = UIFont.systemFont(ofSize: 12.0)
         self.badgePadding = 6
         self.badgeMinSize = 8
         if let label = self.badgeLabel {
             if let customView = self.customView {
                 self.badgeOriginX  = customView.frame.size.width  - label.frame.size.width/2
             }
-
         }
         self.badgeOriginY = -4
         self.shouldHideBadgeAtZero = true
         self.shouldAnimateBadge = true
         customView?.clipsToBounds = false
     }
-
-
-
+    
     fileprivate func removeBadge() {
         UIView.animate(withDuration: 0.2, animations: {
             self.badgeLabel?.transform = CGAffineTransform.init(scaleX: 0, y: 0)
@@ -144,8 +140,6 @@ class BadgeBarButtonItem: UIBarButtonItem {
             if (self.badgeLabel != nil) { self.badgeLabel = nil }
         }
     }
-
-
 
     fileprivate func updateBadgeValue(animated: Bool) {
         if animated && self.shouldAnimateBadge && !(self.badgeLabel?.text == self.badgeValue) {
@@ -171,16 +165,30 @@ class BadgeBarButtonItem: UIBarButtonItem {
     fileprivate  func updateBadgeFrame() {
         let expectedLabelSize: CGSize = badgeExpectedSize()
         var minHeight: CGFloat = expectedLabelSize.height
-
         minHeight = (minHeight < self.badgeMinSize) ? self.badgeMinSize : expectedLabelSize.height
+
         var minWidth: CGFloat = expectedLabelSize.width
         let padding = self.badgePadding
-
         minWidth = (minWidth < minHeight) ? minHeight : expectedLabelSize.width
-        self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: minWidth + padding, height: minHeight + padding)
-        self.badgeLabel?.layer.cornerRadius = (minHeight + padding) / 2
-        self.badgeLabel?.layer.masksToBounds = true
+
+        let badgeWidth = minWidth + padding
+        let badgeHeight = minHeight + padding
+        if self.badgeLabel != nil {
+            if let customView = self.customView {
+                if self.badgeOriginX > customView.frame.size.width {
+                    self.badgeOriginX = customView.frame.size.width - badgeWidth/2
+                }
+                if self.badgeOriginY > customView.frame.size.height {
+                    self.badgeOriginY = customView.frame.size.height - badgeHeight/2
+                }
+
+                self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: badgeWidth, height: badgeHeight)
+                self.badgeLabel?.layer.cornerRadius = badgeHeight / 2
+                self.badgeLabel?.layer.masksToBounds = true
+            }
+        }
     }
+    
 
     fileprivate func badgeExpectedSize() -> CGSize {
         let frameLabel: UILabel = duplicate(self.badgeLabel)

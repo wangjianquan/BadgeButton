@@ -149,11 +149,13 @@ extension UIButton {
      */
     var badgeOriginY: CGFloat  {
         get{
-            return objc_getAssociatedObject(self, &UIButton_badgeOriginYKey) as? CGFloat ?? -5
+            return objc_getAssociatedObject(self, &UIButton_badgeOriginYKey) as? CGFloat ?? -6
         }
         set{
             objc_setAssociatedObject(self, &UIButton_badgeOriginYKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            if (self.badgeLabel != nil) { updateBadgeFrame() }
+            if (self.badgeLabel != nil) {
+                updateBadgeFrame()
+            }
         }
     }
 
@@ -230,18 +232,29 @@ extension UIButton {
         })
     }
 
-   fileprivate  func updateBadgeFrame() {
+    fileprivate  func updateBadgeFrame() {
         let expectedLabelSize: CGSize = badgeExpectedSize()
         var minHeight: CGFloat = expectedLabelSize.height
         minHeight = (minHeight < badgeMinSize) ? badgeMinSize : expectedLabelSize.height
-       
+    
         var minWidth: CGFloat = expectedLabelSize.width
         let padding = self.badgePadding
         minWidth = (minWidth < minHeight) ? minHeight : expectedLabelSize.width
-    
         
-        self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: minWidth + padding, height: minHeight + padding)
-        self.badgeLabel?.layer.cornerRadius = (minHeight + padding) / 2
+        
+        let badgeWidth = minWidth + padding
+        let badgeHeight = minHeight + padding
+
+        if self.badgeOriginX > self.frame.size.width {
+            self.badgeOriginX = self.frame.size.width - badgeWidth/2
+        }
+        
+        if self.badgeOriginY > self.frame.size.height {
+            self.badgeOriginY = self.frame.size.height - badgeHeight/2
+        }
+
+        self.badgeLabel?.frame = CGRect(x: self.badgeOriginX, y: self.badgeOriginY, width: badgeWidth, height: badgeHeight)
+        self.badgeLabel?.layer.cornerRadius = badgeHeight / 2
         self.badgeLabel?.layer.masksToBounds = true
     }
 
